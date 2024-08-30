@@ -65,7 +65,6 @@ data_of_month = filtered_data(data_of_month,'2012')
 from statsmodels.tsa.seasonal import STL
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 
-
 def research_stl(data):
     data['年-月'] = pd.to_datetime(data['年-月'])
     data.set_index('年-月', inplace=True)
