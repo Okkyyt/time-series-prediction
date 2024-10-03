@@ -48,10 +48,10 @@ from statsmodels.tsa.seasonal import STL
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 
 def research_stl(data):
-    data = pd.to_datetime(data['年-月'])
+    data['年-月'] = pd.to_datetime(data['年-月'])
     data.set_index('年-月', inplace=True)
 
-    stl = STL(data, seasonal=13).fit()
+    stl = STL(data['終値'], seasonal=13).fit()
     ig, ax = plt.subplots(4, 1, figsize=(10, 6), sharex=True)
 
     data["終値"].plot(ax=ax[0], c='black')
@@ -69,6 +69,11 @@ def research_stl(data):
     plt.tight_layout()
     plt.show()
 
+def scaling(data):
+    data = data['終値'].values
+    data = data.reshape(-1,1)
+    return data
+
 
 #-----------------------------------------------------------
 #データの実行
@@ -76,4 +81,6 @@ data = get_data()
 data_of_month = get_data_of_month(data)
 data = filter_data(data,'2012')
 data_of_month = filter_data(data_of_month,'2012')
-
+print(data_of_month.head())
+print(data.head())
+research_stl(data_of_month)
